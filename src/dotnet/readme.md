@@ -23,15 +23,15 @@ description: "This sample showcases how to develop a ASP.NET Core MVC web applic
 
 ### Overview
 
-This sample showcases how to acquire a secret from an Azure Key Vault using the Microsoft identity platform. It shows you how to use the [managed identity for app service](https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity) and acquire a token for an Azure Key Vault resource. 
+This sample showcases how to acquire a secret from an Azure Key Vault using the Microsoft identity platform. It shows you how to use the [managed identity for app service](https://learn.microsoft.com/azure/app-service/overview-managed-identity) and acquire a token for an Azure Key Vault resource. 
 
 The sample shows how to use [MSAL.NET (Microsoft Authentication Library)](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet) to obtain an access token for [Azure Key Vault](https://vault.azure.net). Specifically, the sample shows how to retrieve the secret value from a key vault.
 
-Finally, the sample also demonstrates how to use the different [types of managed identities](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types) to get an access token.
+Finally, the sample also demonstrates how to use the different [types of managed identities](https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types) to get an access token.
 
 For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
 
-For more information about Managed Identity, please visit the [Managed Identities for Azure Resources homepage](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
+For more information about Managed Identity, please visit the [Managed Identities for Azure Resources homepage](https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
 
 ## Topology
 
@@ -47,19 +47,20 @@ To run this sample, you'll need:
 
 - [Visual Studio](https://aka.ms/vsdownload)
 - An Internet connection
-- An Azure Account to create, deploy, and manage applications. If you do not have an Azure Account, follow the [instructions](https://azure.microsoft.com/en-us/free/) to get a free account.
+- An Azure Account to create, deploy, and manage applications. If you do not have an Azure Account, follow the [instructions](https://azure.microsoft.com/free/) to get a free account.
 
 ### Step 1:  Clone or download this repository
 
 From your shell or command line:
 
 ```Shell
-git clone https://repo link needs to be addedd here 
+git clone https://github.com/Azure-Samples/active-directory-dotnetcore-daemon-v2
 ```
 
-or download and extract the repository .zip file.
+or download and extract the repository `.ZIP` file.
 
-> Given that the name of the sample is long, and so are the names of the referenced NuGet packages, you might want to clone it in a folder close to the root of your hard drive, to avoid file size limitations on Windows.
+> **Note**
+> If you are running the sample on Windows, given that the name of the sample is long and so are the names of the referenced NuGet packages, you might want to clone it in a folder close to the root of your hard drive to avoid file path size limitations.
 
 ### Step 2:  Modify the Key Vault URI and Secret name values in the code 
 
@@ -140,39 +141,7 @@ Here there's a quick guide to the most interesting authentication-related bits o
 
 ### Acquiring the managed identity token
 
-MSAL.NET supports acquiring tokens through the managed identity capability when used with applications running inside Azure infrastructure. You can read more about MSAL .NET support for managed identities [here](https://learn.microsoft.com/en-us/entra/msal/dotnet/advanced/managed-identity)
-
-```CSharp
-//Get a managed identity token using Microsoft Identity Client
-IManagedIdentityApplication mi = CreateManagedIdentityApplication(userAssignedId);
-var result = await mi.AcquireTokenForManagedIdentity(resource).ExecuteAsync().ConfigureAwait(false);
-var accessToken = result.AccessToken;
-
-private static IManagedIdentityApplication CreateManagedIdentityApplication(string? userAssignedId)
-{
-    if (userAssignedId == null)
-    {
-        return ManagedIdentityApplicationBuilder.Create()
-            .WithExperimentalFeatures()
-            .WithCacheOptions(CacheOptions.EnableSharedCacheOptions)
-            .Build();
-    }
-    else
-    {
-        return ManagedIdentityApplicationBuilder.Create(userAssignedId)
-            .WithExperimentalFeatures()
-            .WithCacheOptions(CacheOptions.EnableSharedCacheOptions)
-            .Build();
-    }
-}
-```
-
-> The sample app also reads the `userassignedid` from the query string. You can pass the value of the `user assigned client id` or a `resource id` to the sample app's GetSecret endpoint (GetSecret?userassignedid=1)
-
-Important things to notice:
-
-- `ManagedIdentityApplicationBuilder.Create()` will invoke the System Assigned managed identity of the Azure resource.
-- For an Azure resource that supports user assigned managed identity you will need to pass either the `clientid` or the `resource id` using `ManagedIdentityApplicationBuilder.Create(userAssignedId)`
+MSAL.NET supports acquiring tokens through the managed identity capability when used with applications running inside Azure infrastructure. You can read more about MSAL .NET support for managed identities in the [official documentation](https://learn.microsoft.com/entra/msal/dotnet/advanced/managed-identity).
 
 ### Using the access tokens in the app
 
@@ -210,7 +179,19 @@ This error indicates that the managed identity endpoint is not reachable.
 
 > Causes : Managed identity was not turned on for the Azure Resource
 
-### {"error":{"code":"Forbidden","message":"The user, group or application 'appid=xyz;oid=xyz;iss=https://sts.windows.net/xyz/' does not have secrets get permission on key vault '<key vault name>;location=xyz'. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125287","innererror":{"code":"AccessDenied"}}}
+### Access Denied errors
+
+```json
+{
+  "error": {
+    "code": "Forbidden",
+    "message": "The user, group or application 'appid=xyz;oid=xyz;iss=https://sts.windows.net/xyz/' does not have secrets get permission on key vault '<key vault name>;location=xyz'. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125287",
+    "innererror": {
+      "code": "AccessDenied"
+    }
+  }
+}
+```
 
 This error indicates that the managed identity service principal was not granted access to the key vault. 
 
@@ -218,13 +199,11 @@ This error indicates that the managed identity service principal was not granted
 
 ## Community Help and Support
 
-Use [Stack Overflow](http://stackoverflow.com/questions/tagged/msal) to get support from the community.
-Ask your questions on Stack Overflow first and browse existing issues to see if someone has asked your question before.
-Make sure that your questions or comments are tagged with [`msal` `dotnet` `microsoft-graph`].
+Use [Stack Overflow](http://stackoverflow.com/questions/tagged/azure-ad-msal) to get support from the community. Ask your questions on Stack Overflow first and browse existing issues to see if someone has asked your question before.
 
-If you find a bug in the sample, please raise the issue on [GitHub Issues](../../issues).
+Make sure that your questions or comments are tagged with `azure-ad-msal`, `dotnet`, and `microsoft-graph`.
 
-To provide a recommendation, visit the following [User Voice page](https://feedback.azure.com/forums/169401-azure-active-directory).
+If you find a bug in the sample, please raise the issue on [GitHub Issues](/issues).
 
 ## Contributing
 
@@ -234,21 +213,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 ## More information
 
-For more information, visit the following links:
-
-- [Add sign-in with Microsoft to an ASP.NET web app (V2 endpoint)](https://docs.microsoft.com/azure/active-directory/develop/guidedsetups/active-directory-aspnetwebapp) explains how to re-create the sign-in part of this sample from scratch.
-- To learn more about the code, visit [Conceptual documentation for MSAL.NET](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki#conceptual-documentation) and in particular:
-
-  - [Acquiring tokens with authorization codes on web apps](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Acquiring-tokens-with-authorization-codes-on-web-apps)
-  - [Customizing Token cache serialization](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/token-cache-serialization)
-  - [Acquiring a token on behalf of a user Service to Services calls](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/on-behalf-of) 
-
-- Articles about the Azure AD V2 endpoint [http://aka.ms/aaddevv2](http://aka.ms/aaddevv2), with a focus on:
-
-  - [Azure Active Directory v2.0 and OAuth 2.0 On-Behalf-Of flow](https://docs.microsoft.com/azure/active-directory/develop/active-directory-v2-protocols-oauth-on-behalf-of)
-  - [Incremental and dynamic consent](https://docs.microsoft.com/azure/active-directory/develop/active-directory-v2-compare#incremental-and-dynamic-consent)
-
-- Articles about the Microsoft Graph
-  - [Overview of Microsoft Graph](https://developer.microsoft.com/graph/docs/concepts/overview)
-  - [Get access tokens to call Microsoft Graph](https://developer.microsoft.com/graph/docs/concepts/auth_overview)
-  - [Use the Microsoft Graph API](https://developer.microsoft.com/graph/docs/concepts/use_the_api)
+For more information, refer to the [MSAL.NET documentation](https://learn.microsoft.com/entra/msal/dotnet/getting-started/choosing-msal-dotnet).
