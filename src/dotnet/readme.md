@@ -175,7 +175,7 @@ Following are the most common errors you would see if any step was missed during
 
 ### An attempt was made to access a socket in a way forbidden by its access permissions. (169.254.169.254:80)
 
-This error indicates that the managed identity endpoint is not reachable. Please refer to the Azure Web App ocumentation on [how to turn on Managed Identity](https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-integrate-azure-managed-service-identity?pivots=framework-dotnet&tabs=core5x#add-a-managed-identity).
+This error indicates that the managed identity endpoint is not reachable. Please refer to the Azure Web App ocumentation on [how to turn on Managed Identity](https://learn.microsoft.com/azure/azure-app-configuration/howto-integrate-azure-managed-service-identity?pivots=framework-dotnet&tabs=core5x#add-a-managed-identity).
 
 > Causes : Managed identity is not enabled for the Azure Resource.
 
