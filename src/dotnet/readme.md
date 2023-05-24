@@ -193,7 +193,7 @@ This error indicates that the managed identity endpoint is not reachable. Please
 }
 ```
 
-This error indicates that the managed identity service principal was not granted access to the key vault. Please refer to ["Assign a Key Vault access policy"](https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy?tabs=azure-portal) for more information.
+This error indicates that the managed identity service principal was not granted access to the key vault. Please refer to ["Assign a Key Vault access policy"](https://learn.microsoft.com/azure/key-vault/general/assign-access-policy?tabs=azure-portal) for more information.
 
 > Causes : Managed identity resource was not granted access to the Key Vault
 
