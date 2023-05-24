@@ -30,7 +30,7 @@ namespace ms_activedirectory_managedidentity.Controllers
         }
 
         /// <summary>
-        /// Gets secret from the Azure Key Vault
+        /// Gets a secret from the Azure Key Vault
         /// </summary>
         /// <param name="userAssignedClientId">Optional parameter if you want to get a token for a user assigned managed identity 
         /// using the client id of the user assigned managed identity</param>
