@@ -54,7 +54,7 @@ To run this sample, you'll need:
 From your shell or command line:
 
 ```Shell
-git clone https://github.com/Azure-Samples/active-directory-dotnetcore-daemon-v2
+git clone https://github.com/Azure-Samples/msal-managed-identity.git
 ```
 
 or download and extract the repository `.ZIP` file.
@@ -169,15 +169,15 @@ var secretValue = await response.Content.ReadAsStringAsync();
 
 Now the web page will show the secret value of the key vault secret you queried for.
 
-## Community Help and Support
+## Commin Errors
 
 Following are the most common errors you would see if any step was missed during setup:
 
 ### An attempt was made to access a socket in a way forbidden by its access permissions. (169.254.169.254:80)
 
-This error indicates that the managed identity endpoint is not reachable. 
+This error indicates that the managed identity endpoint is not reachable. Please refer to the Azure Web App ocumentation on [how to turn on Managed Identity](https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-integrate-azure-managed-service-identity?pivots=framework-dotnet&tabs=core5x#add-a-managed-identity).
 
-> Causes : Managed identity was not turned on for the Azure Resource
+> Causes : Managed identity is not enabled for the Azure Resource.
 
 ### Access Denied errors
 
@@ -193,7 +193,7 @@ This error indicates that the managed identity endpoint is not reachable.
 }
 ```
 
-This error indicates that the managed identity service principal was not granted access to the key vault. 
+This error indicates that the managed identity service principal was not granted access to the key vault. Please refer to ["Assign a Key Vault access policy"](https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy?tabs=azure-portal) for more information.
 
 > Causes : Managed identity resource was not granted access to the Key Vault
 
