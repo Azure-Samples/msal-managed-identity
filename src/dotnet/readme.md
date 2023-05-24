@@ -169,7 +169,7 @@ var secretValue = await response.Content.ReadAsStringAsync();
 
 Now the web page will show the secret value of the key vault secret you queried for.
 
-## Commin Errors
+## Common Errors
 
 Following are the most common errors you would see if any step was missed during setup:
 
