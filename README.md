@@ -1,57 +1,9 @@
-# Project Name
+# Managed Identity with Microsoft Authentication Library (MSAL)
 
-(short, 1-3 sentenced, description of the project)
+This repository contains samples that show how to use [Azure Managed Identity](https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview) with Microsoft [Authentication Library](https://learn.microsoft.com/entra/msal).
 
-## Features
+## Current samples
 
-This project framework provides the following features:
-
-* Feature 1
-* Feature 2
-* ...
-
-## Getting Started
-
-### Prerequisites
-
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
-
-### Quickstart
-(Add steps to get up and running quickly)
-
-1. git clone [repository clone url]
-2. cd [repository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+| Sample | Platform | Build status | Description |
+|:-------|:---------|:-------------|:------------|
+| [`ms-activedirectory-managedidentity`](src/dotnet/README.md) | .NET | | This sample showcases how to acquire a secret from an Azure Key Vault using the Microsoft identity platform. It shows you how to use the [managed identity for app service](https://learn.microsoft.com/azure/app-service/overview-managed-identity) and acquire a token for an Azure Key Vault resource. | 

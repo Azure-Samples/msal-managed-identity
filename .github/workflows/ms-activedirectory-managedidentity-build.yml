@@ -1,0 +1,42 @@
+name: Managed Identity with MSAL (.NET)
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+    paths:
+    - '**.cs'
+    - '**.csproj'
+  workflow_dispatch:
+  schedule:
+    - cron:  '00 00 * * *'
+
+env:
+  DOTNET_VERSION: '6.0.401' # The .NET SDK version to use
+
+jobs:
+  build-and-test:
+      name: build-and-test-${{matrix.os}}
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-latest, windows-latest, macOS-latest]
+
+      steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install dependencies
+        working-directory: ./src/dotnet
+        run: dotnet restore
+        
+      - name: Build
+        working-directory: ./src/dotnet
+        run: dotnet build --configuration Release --no-restore
+      
+      - name: Test
+        working-directory: ./src/dotnet
+        run: dotnet test --no-restore --verbosity normal
