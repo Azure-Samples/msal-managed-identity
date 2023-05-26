@@ -7,3 +7,14 @@ This repository contains samples that show how to use [Azure Managed Identity](h
 | Sample | Platform | Build status | Description |
 |:-------|:---------|:-------------|:------------|
 | [`ms-activedirectory-managedidentity`](src/dotnet/README.md) | .NET | [![.NET Build](https://github.com/Azure-Samples/msal-managed-identity/actions/workflows/ms-activedirectory-managedidentity-build.yml/badge.svg)](https://github.com/Azure-Samples/msal-managed-identity/actions/workflows/ms-activedirectory-managedidentity-build.yml) | This sample showcases how to acquire a secret from an Azure Key Vault using the Microsoft identity platform. It shows you how to use the [managed identity for app service](https://learn.microsoft.com/azure/app-service/overview-managed-identity) and acquire a token for an Azure Key Vault resource. |
+
+## Authors
+
+* @gladjohn
+* neha-bhargava
+
+## Get support
+
+If you found a bug or want to suggest a new (for example, a new feature, use case, or sample), please [submit an issue](/issues).
+
+If you have questions, comments, or need help with code, we're here to help - join us on Stack Overflow at the [`azure-ad-msal`](https://stackoverflow.com/questions/tagged/azure-ad-msal) tag.
