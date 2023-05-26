@@ -20,6 +20,6 @@ This repository contains samples that show how to use [Azure Managed Identity](h
 
 ## Get support
 
-If you found a bug or want to suggest a new (for example, a new feature, use case, or sample), please [submit an issue](/issues).
+If you found a bug or want to suggest a new (for example, a new feature, use case, or sample), please [submit an issue](https://github.com/Azure-Samples/msal-managed-identity/issues).
 
 If you have questions, comments, or need help with code, we're here to help - join us on Stack Overflow at the [`azure-ad-msal`](https://stackoverflow.com/questions/tagged/azure-ad-msal) tag.
