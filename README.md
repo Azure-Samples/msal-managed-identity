@@ -15,8 +15,8 @@ This repository contains samples that show how to use [Azure Managed Identity](h
 
 ## Authors
 
-* [@gladjohn](https://github.com/@gladjohn)
-* [@neha-bhargava](https://github.com/@neha-bhargava)
+* [@neha-bhargava](https://github.com/neha-bhargava)
+* [@gladjohn](https://github.com/gladjohn)
 
 ## Get support
 
