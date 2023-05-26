@@ -1,4 +1,4 @@
-name: Managed Identity with MSAL (.NET)
+name: .NET Build
 
 on:
   push:
