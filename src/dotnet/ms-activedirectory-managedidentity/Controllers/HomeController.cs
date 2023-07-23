@@ -36,9 +36,11 @@ namespace ms_activedirectory_managedidentity.Controllers
         /// using the client id of the user assigned managed identity</param>
         /// <param name="userAssignedResourceId">Optional parameter if you want to get a token for a user assigned managed identity 
         /// using the resource id of the user assigned managed identity</param>
-        /// <returns></returns>
+        /// <param name="userAssignedObjectId">Optional parameter if you want to get a token for a user assigned managed identity 
+        /// using the object id of the user assigned managed identity</param>
         public async Task<ActionResult> GetSecret([FromQuery(Name = "userAssignedClientId")] string? userAssignedClientId = null,
-            [FromQuery(Name = "userAssignedResourceId")] string? userAssignedResourceId = null)
+            [FromQuery(Name = "userAssignedResourceId")] string? userAssignedResourceId = null,
+            [FromQuery(Name = "userAssignedObjectId")] string? userAssignedObjectId = null)
         {
             try
             {
@@ -47,7 +49,11 @@ namespace ms_activedirectory_managedidentity.Controllers
                 var secretName = "<secret name>"; 
 
                 //Get a managed identity token using Microsoft Identity Client
-                IManagedIdentityApplication mi = CreateManagedIdentityApplication(userAssignedClientId, userAssignedResourceId);
+                IManagedIdentityApplication mi = CreateManagedIdentityApplication(
+                    userAssignedClientId, 
+                    userAssignedResourceId, 
+                    userAssignedObjectId);
+
                 var result = await mi.AcquireTokenForManagedIdentity(resource).ExecuteAsync().ConfigureAwait(false);
                 var accessToken = result.AccessToken;
 
@@ -78,7 +84,10 @@ namespace ms_activedirectory_managedidentity.Controllers
             }
         }
 
-        private static IManagedIdentityApplication CreateManagedIdentityApplication(string? userAssignedClientId, string? userAssignedResourceId)
+        private static IManagedIdentityApplication CreateManagedIdentityApplication(
+            string? userAssignedClientId, 
+            string? userAssignedResourceId, 
+            string? userAssignedObjectId)
         {
             if (!string.IsNullOrEmpty(userAssignedClientId)) // Create managed identity application using user assigned client id.
             {
@@ -88,6 +97,11 @@ namespace ms_activedirectory_managedidentity.Controllers
             else if (!string.IsNullOrEmpty(userAssignedResourceId)) // Create managed identity application using user assigned resource id.
             {
                 return ManagedIdentityApplicationBuilder.Create(ManagedIdentityId.WithUserAssignedResourceId(userAssignedResourceId))
+                    .Build();
+            }
+            else if (!string.IsNullOrEmpty(userAssignedObjectId)) // Create managed identity application using user assigned object id.
+            {
+                return ManagedIdentityApplicationBuilder.Create(ManagedIdentityId.WithUserAssignedObjectId(userAssignedObjectId))
                     .Build();
             }
             else // Create managed identity application using system assigned managed identity.
