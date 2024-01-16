@@ -68,6 +68,13 @@ namespace ms_activedirectory_managedidentity.Controllers
                 ViewBag.Message = secretValue;
                 return View();
             }
+            catch (MsalServiceException ex)
+            {
+                ViewBag.Title = "MsalServiceException Thrown!!!";
+                ViewBag.Error = "MsalServiceException";
+                ViewBag.Message = ex.Message;
+                return View();
+            }
             catch (MsalException ex)
             {
                 ViewBag.Title = "MsalException Thrown!!!";
