@@ -46,7 +46,7 @@ namespace ms_activedirectory_managedidentity.Controllers
             {
                 string resource = "https://vault.azure.net";
                 var kvUri = "https://<your-key-vault-name>.vault.azure.net/";
-                var secretName = "<secret name>"; 
+                var secretName = "<secret name>";
 
                 //Get a managed identity token using Microsoft Identity Client
                 IManagedIdentityApplication mi = CreateManagedIdentityApplication(
@@ -66,6 +66,13 @@ namespace ms_activedirectory_managedidentity.Controllers
                 var secretValue = await response.Content.ReadAsStringAsync();
 
                 ViewBag.Message = secretValue;
+                return View();
+            }
+            catch (MsalServiceException ex)
+            {
+                ViewBag.Title = "MsalServiceException Thrown!!!";
+                ViewBag.Error = "MsalServiceException";
+                ViewBag.Message = ex.Message;
                 return View();
             }
             catch (MsalException ex)

@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 # TypeScript build folder
 dist/
+/src/dotnet/ms-activedirectory-managedidentity/Properties/ServiceDependencies/msalmsiintegration - Web Deploy/profile.arm.json
