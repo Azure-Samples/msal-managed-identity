@@ -29,8 +29,8 @@ public class AcquireTokenMsi {
         context.getLogger().info("Initializing Acquire Token request.");
 
         String resource = "https://vault.azure.net";
-        String kvUri = "https://msikeys.vault.azure.net/";
-        String secretName = "msiSecret";
+        String kvUri = "https://<your-key-vault-name>.vault.azure.net/";
+        String secretName = "<secret name>";
 
         // Parse query parameter
         Map<String, String> queryParameters = request.getQueryParameters();
