@@ -25,7 +25,7 @@ description: "This sample showcases how to develop an Azure function that gets a
 
 This sample showcases how to acquire a secret from an Azure Key Vault using Azure Managed Identity. It shows you how to use the managed identity for [Azure function](https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview?pivots=programming-language-java) and acquire a token for an Azure Key Vault resource.
 
-The sample shows how to use [MSAL (Microsoft Authentication Library) for java](https://github.com/AzureAD/microsoft-authentication-library-for-java) to obtain an access token for [Azure Key Vault](https://vault.azure.net). Specifically, the sample shows how to retrieve the secret value from a vault.
+The sample shows how to use [MSAL (Microsoft Authentication Library) for Java](https://github.com/AzureAD/microsoft-authentication-library-for-java) to obtain an access token for [Azure Key Vault](https://vault.azure.net). Specifically, the sample shows how to retrieve the secret value from a vault.
 
 Finally, the sample also demonstrates how to use the different [types of managed identities](https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types) to get an access token.
 
@@ -63,14 +63,14 @@ Following are the changes you need to make:
 
 - In the [`AcquireTokenMsi.java`](https://github.com/Azure-Samples/msal-managed-identity/blob/main/src/java/src/main/java/com/microsoft/msi/sample/AcquireTokenMsi.java) file under the GetSecret method modify the following values, 
 
-    ```cs
-        var kvUri = "https://<your-key-vault-name>.vault.azure.net/";
+    ```java
+        String kvUri = "https://<your-key-vault-name>.vault.azure.net/";
     ```
 
 - also, in the same file in the next line. Provide the secret name you want to query for.
 
-    ```cs
-        var secretName = "<secret name>";
+    ```java
+        String secretName = "<secret name>";
     ```
 
 ### Step 3:  Build and Publish the sample
@@ -113,7 +113,7 @@ Here there's a quick guide to the most interesting authentication-related bits o
 
 ### Acquiring the managed identity token
 
-MSAL.NET supports acquiring tokens through the managed identity capability when used with applications running inside Azure infrastructure. You can read more about MSAL Java support for managed identities in the [official documentation](https://learn.microsoft.com/entra/msal/java/advanced/managed-identity).
+MSAL Java supports acquiring tokens through the managed identity capability when used with applications running inside Azure infrastructure. You can read more about MSAL Java support for managed identities in the [official documentation](https://learn.microsoft.com/entra/msal/java/advanced/managed-identity).
 
 ## Common Errors
 
