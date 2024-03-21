@@ -1,6 +1,6 @@
 # Managed Identity for Azure VM Sample
 
-This sample demonstrates how to use [managed identity via the msal-node library](/lib/msal-node/docs/managed-identity.md) to retrieve tokens for a managed identity application running on an Azure VM.
+This sample demonstrates how to use managed identity via the `msal-node` library to acquire a token for accessing Azure Key Vault, on behalf of a managed identity configured on an Azure virtual machine (VM). The sample then calls the downstream API, which calls Azure Key Vault and retrieves a secret.
 
 ## Note
 
@@ -9,7 +9,11 @@ This sample demonstrates how to use [managed identity via the msal-node library]
 
 ## Virtual Machine Setup
 
-Follow [this guide](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/qs-configure-portal-windows-vm) to setup an Azure VM, as well as add a system assigned and user assigned managed identity to the Azure VM.
+Follow [this guide](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/qs-configure-portal-windows-vm) to setup an Azure VM, as well as add a system assigned and user assigned managed identity to the Azure VM.
+
+## Key Vault Setup
+
+Follow the tutorial to provision the resources necessary for this sample: [Tutorial: Use a Windows VM system-assigned managed identity to access Azure Key Vault](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/tutorial-windows-vm-access-nonaad).
 
 ## Project Setup
 
@@ -19,7 +23,7 @@ In a terminal on the Azure VM, navigate to the directory where `package.json` re
     npm install
 ```
 
-Before running the sample, the userAssignedClientId value in the managedIdentityIdParams object in index.ts needs to be replaced by the client id of the user assigned managed identity that was created in the previous step:
+Before running the sample, the userAssignedClientId value in the managedIdentityIdParams object in `index.ts` needs to be replaced by the client id of the user assigned managed identity that was created in the previous step:
 
 ```typescript
 const managedIdentityIdParams: ManagedIdentityIdParams = {
@@ -27,9 +31,16 @@ const managedIdentityIdParams: ManagedIdentityIdParams = {
 };
 ```
 
+Additionally, the `KEY_VAULT_NAME` and `SECRET_NAME` values in `index.ts` need to be updated.
+
+```typescript
+const KEY_VAULT_NAME: string = "KEY_VAULT_NAME";
+const SECRET_NAME: string = "SECRET_NAME";
+```
+
 ## Run the app on the Azure VM
 
-Before running the sample (and everytime changes are made to the sample), the TypeScript will need to be compiled. In the same folder, type:
+Before running the sample (and everytime changes are made to the sample), the TypeScript code will need to be compiled. In the same folder, type:
 
 ```console
     npx tsc
