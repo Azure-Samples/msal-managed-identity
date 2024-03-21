@@ -89,7 +89,7 @@ There are few important settings you need to change for this sample to work:
 
 - After you publish the function to Azure, go to your resource in the [Azure Portal](https://portal.azure.com/)
 - Select the `Identity` blade of the function
-- [Enable the System Assigned managed identity](https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-access-azure-sql-with-managed-identity#enable-system-assigned-managed-identity-on-azure-function) of the resource.
+- [Enable the System Assigned managed identity](https://learn.microsoft.com/azure/azure-functions/functions-identity-access-azure-sql-with-managed-identity#enable-system-assigned-managed-identity-on-azure-function) of the resource.
 
 ### Assign Azure roles using the Azure portal
 
