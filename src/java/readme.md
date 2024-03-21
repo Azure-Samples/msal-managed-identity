@@ -100,6 +100,7 @@ You will need to authorize the managed identity resource to access the vault.
 ## Launch the function
 
 To launch the function you can use the following:
+
 1. {your host}/api/AcquireTokenMsi - to acquire a token for system assigned managed identity
 2. {your host}/api/AcquireTokenMsi?userAssignedClientId=<client id of the user assigned managed identity> - to acquire a token for a user assigned managed identity.
 3. {your host}/api/AcquireTokenMsi?userAssignedResourceId=<resource id of the user assigned managed identity> - to acquire a token for a user assigned managed identity.
