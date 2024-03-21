@@ -79,7 +79,7 @@ Build the solution and run it locally.
 
 ## Publish your function
 
-[Deploy your function](https://learn.microsoft.com/en-us/azure/azure-functions/functions-create-maven-intellij#deploy-your-project-to-azure) using IntelliJ
+[Deploy your function](https://learn.microsoft.com/azure/azure-functions/functions-create-maven-intellij#deploy-your-project-to-azure) using IntelliJ
 
 ## After you deploy the sample to Azure
 
