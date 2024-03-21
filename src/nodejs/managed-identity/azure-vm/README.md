@@ -1,6 +1,6 @@
 # Managed Identity for Azure VM Sample
 
-This sample demonstrates how to use [managed identity via the msal-node library](/lib/msal-node/docs/managed-identity.md) to acquire a token for accessing Azure Key Vault, on behalf of a managed identity configured on an Azure virtual machine (VM). The sample then calls the downstream API, which calls Azure Key Vault and retrieves a secret.
+This sample demonstrates how to use managed identity via the `msal-node` library to acquire a token for accessing Azure Key Vault, on behalf of a managed identity configured on an Azure virtual machine (VM). The sample then calls the downstream API, which calls Azure Key Vault and retrieves a secret.
 
 ## Note
 
@@ -9,11 +9,11 @@ This sample demonstrates how to use [managed identity via the msal-node library]
 
 ## Virtual Machine Setup
 
-Follow [this guide](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/qs-configure-portal-windows-vm) to setup an Azure VM, as well as add a system assigned and user assigned managed identity to the Azure VM.
+Follow [this guide](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/qs-configure-portal-windows-vm) to setup an Azure VM, as well as add a system assigned and user assigned managed identity to the Azure VM.
 
 ## Key Vault Setup
 
-Follow the tutorial to provision the resources necessary for this sample: [Tutorial: Use a Windows VM system-assigned managed identity to access Azure Key Vault](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/tutorial-windows-vm-access-nonaad).
+Follow the tutorial to provision the resources necessary for this sample: [Tutorial: Use a Windows VM system-assigned managed identity to access Azure Key Vault](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/tutorial-windows-vm-access-nonaad).
 
 ## Project Setup
 
