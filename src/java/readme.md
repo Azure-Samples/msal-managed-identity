@@ -29,7 +29,7 @@ The sample shows how to use [MSAL (Microsoft Authentication Library) for Java](h
 
 Finally, the sample also demonstrates how to use the different [types of managed identities](https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types) to get an access token.
 
-For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
+For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Microsoft Entra ID](http://go.microsoft.com/fwlink/?LinkId=394414).
 
 For more information about Managed Identity, please visit the [Managed Identities for Azure Resources homepage](https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
 
