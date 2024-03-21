@@ -122,7 +122,7 @@ Following are the most common errors you would see if any step was missed during
 
 ### An attempt was made to access a socket in a way forbidden by its access permissions. (169.254.169.254:80)
 
-This error indicates that the managed identity endpoint is not reachable. Please refer to [how to enable managed identity on Azure functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-access-azure-sql-with-managed-identity#enable-system-assigned-managed-identity-on-azure-function)
+This error indicates that the managed identity endpoint is not reachable. Please refer to [how to enable managed identity on Azure functions](https://learn.microsoft.com/azure/azure-functions/functions-identity-access-azure-sql-with-managed-identity#enable-system-assigned-managed-identity-on-azure-function)
 
 > Causes: Managed identity is not enabled for the Azure Resource.
 
