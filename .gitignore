@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # TypeScript build folder
 dist/
+
+# NodeJS environment variable file
+.env
