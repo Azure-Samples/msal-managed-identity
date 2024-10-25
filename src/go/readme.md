@@ -23,7 +23,7 @@ description: "This sample showcases how to develop an Azure function that gets a
 
 ### Overview
 
-This sample showcases how to acquire a secret from an Azure Key Vault using Azure Managed Identity. It shows you how to use the [Azure Functions](https://learn.microsoft.com/azure/azure-functions/functions-overview?pivots=programming-language-java) and acquire a token for an Azure Key Vault resource.
+This sample showcases how to acquire a secret from an Azure Key Vault using Azure Managed Identity. It shows you how to use the [Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-other?tabs=go%2Cwindows) and acquire a token for an Azure Key Vault resource.
 
 The sample shows how to use [MSAL (Microsoft Authentication Library) for GO](https://github.com/AzureAD/microsoft-authentication-library-for-go) to obtain an access token for [Azure Key Vault](https://vault.azure.net). Specifically, the sample shows how to retrieve the secret value from a vault.
 
