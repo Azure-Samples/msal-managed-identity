@@ -35,7 +35,7 @@ To run this sample, you'll need:
 - An Azure account to create, deploy, and manage applications. If you do not have an Azure Account, follow the [instructions](https://azure.microsoft.com/free/) to get a free account.
 - Windows or Linux VM
 
-## Setting Up Azure Arc on Ubuntu(linux)
+## Setting Up Azure Arc on Ubuntu (Linux)
 
 This guide provides a step-by-step approach to set up Azure Arc on Ubuntu, including troubleshooting tips for common issues. You can use your Linux distribution of choice and modify steps as required
 
@@ -240,31 +240,6 @@ sudo -E go run managedidentity_sample.go
 - **Linux Environment Variables**: Ensure that processes and daemons see the environment variables; refer to [this documentation](https://eng.ms/docs/cloud-ai-platform/azure-core/azure-management-and-platforms/control-plane-bburns/hybrid-resource-provider/azure-arc-for-servers/specs/extension_authoring).
 
 This guide should assist you in setting up Azure Arc on your Ubuntu environment effectively. If you encounter any issues, consult the linked resources for additional support.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Setting Up Azure Arc on Windows
 
