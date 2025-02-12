@@ -28,10 +28,11 @@ Samples can all be tested by downloading the [MSAL (Microsoft Authentication Lib
 
 The Sources with samples are as follows:
 
-- IMDS
-- Azure Arc
-- Azure Machine Learning
-- Cloud Shell
+- [IMDS](samples/IMDS/overview.md)
+- [Azure Arc](samples/AzureArc/overview.md)
+- [Azure Machine Learning](samples/AzureML/overview.md)
+- [App Service](samples/AppService/overview.md)
+- [Cloud Shell](samples/CloudShell/overview.md)
 - Service Fabric
 
  You can read more about MSAL GO support for managed identities in the [official documentation](https://learn.microsoft.com/entra/msal/go/advanced/managed-identity).
