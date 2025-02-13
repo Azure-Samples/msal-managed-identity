@@ -37,6 +37,48 @@ The Sources with samples are as follows:
 
  You can read more about MSAL GO support for managed identities in the [official documentation](https://learn.microsoft.com/entra/msal/go/advanced/managed-identity).
 
+## Creating a GO Project for your samples
+
+- Create a new GO Project using the following
+
+```bash
+go mod init <ProjectName>
+go get github.com/AzureAD/microsoft-authentication-library-for-go
+touch main.go
+```
+
+- Modify the ***main.go*** file by using the following commands if using terminal, otherwise just open the file and modify as needed
+
+```bash
+vi main.go
+```
+
+- Press 'I' and 'Enter' to enter ***Insert*** mode
+- You can then use the arrow keys to navigate and modify the code as needed, such as changing the **<ProjectName>** etc
+
+``` go
+package <ProjectName>
+ 
+import (
+    mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
+)
+ 
+func main() {
+    client, err := mi.New(mi.SystemAssigned())
+    if err != nil {
+        log.Fatal(err)
+    }
+    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("token expire at : ", result.ExpiresOn)
+}
+ 
+```
+
+- When you are finished, press ***Escape*** and then type ***:wq*** and press ***Enter*** to save the file
+
 ### System and User Assigned Managed Identities
 
 By default, all samples use **System Assigned** Managed Identity.  
@@ -48,16 +90,16 @@ You can read more about [types of managed identities here](https://learn.microso
 In the case you want to use **User Assigned**, make sure that a Managed Identity Resource has been set up correctly on Azure.  
 Then you will need to modify the code:
 
-- Modify the ***managedidentity_sample.go*** file
+- Modify the ***main.go*** file
 - You can change ***UserAssignedClientID*** to be ***UserAssignedObjectID*** or ***UserAssignedResourceID*** as needed
 
 ```go
-func runIMDSUserAssigned() {
-    miUserAssigned, err := mi.New(mi.UserAssignedClientID("YOUR_CLIENT_ID"))
+func main() {
+    client, err := mi.New(mi.UserAssignedClientID("YOUR_CLIENT_ID"))
     if err != nil {
         log.Fatal(err)
     }
-    result, err := miUserAssigned.AcquireToken(context.TODO(), "https://management.azure.com")
+    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
     if err != nil {
         log.Fatal(err)
     }

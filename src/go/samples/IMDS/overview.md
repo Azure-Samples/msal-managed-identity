@@ -111,18 +111,6 @@ chmod 700 go-lang-machine-key.pem
 - In Terminal on your local machine, run the command you copied
 - It will ask you if you are sure you want to continue connecting, type **'yes'**, this will add your public IP to the list of known hosts
 - We should now be connected to the VM via SSH, if not, run the command again
-- Clone MSAL GO
-
-```bash
-git clone https://github.com/AzureAD/microsoft-authentication-library-for-go.git
-```
-
-- Enter the repo sample app directory
-
-```bash
-cd microsoft-authentication-library-for-go/apps/tests/devapps/managedidentity
-```
-
 - You may need to do an update before installing go, so run the following commands to do that, and then install Golang
 
 ```bash
@@ -131,7 +119,45 @@ sudo apt-get install golang
 ```
 
 - If asked are you sure you want to install, say yes
+- Create a new GO Project using the following
 
+```bash
+go mod init <ProjectName>
+go get github.com/AzureAD/microsoft-authentication-library-for-go
+touch main.go
+```
+
+- Modify the ***main.go*** file by using the following commands if using terminal, otherwise just open the file and modify as needed
+
+```bash
+vi main.go
+```
+
+- Press 'I' and 'Enter' to enter ***Insert*** mode
+- You can then use the arrow keys to navigate and modify the code as needed, such as changing the **<ProjectName>** etc
+
+``` go
+package <ProjectName>
+ 
+import (
+    mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
+)
+ 
+func main() {
+    client, err := mi.New(mi.SystemAssigned())
+    if err != nil {
+        log.Fatal(err)
+    }
+    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("token expire at : ", result.ExpiresOn)
+}
+ 
+```
+
+- When you are finished, press ***Escape*** and then type ***:wq*** and press ***Enter*** to save the file
 - Run the sample app
 
 ```bash

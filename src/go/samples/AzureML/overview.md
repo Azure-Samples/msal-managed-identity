@@ -82,25 +82,54 @@ Now that you have set up the Machine Learning environment, we can begin using it
 
 - While still in your **Studio Web** instance, on the left hand side click **Notebooks**, which is under the **Authoring** section
 - Click on the terminal button
-- Run the following:
+- You may need to do an update before installing go, so run the following commands to do that, and then install Golang
 
 ```bash
-git clone https://github.com/AzureAD/microsoft-authentication-library-for-go.git
+sudo apt-get update
+sudo apt-get install golang
 ```
 
-- You will then need to install go
+- If asked are you sure you want to install, say yes
+- Create a new GO Project using the following
 
 ```bash
-sudo snap install go --classic
+go mod init <ProjectName>
+go get github.com/AzureAD/microsoft-authentication-library-for-go
+touch main.go
 ```
 
-- From here we want to access our test app folder
+- Modify the ***main.go*** file by using the following commands if using terminal, otherwise just open the file and modify as needed
 
 ```bash
-cd microsoft-authentication-library-for-go/apps/tests/devapps/managedidentity
+vi main.go
 ```
 
-- And run the test app
+- Press 'I' and 'Enter' to enter ***Insert*** mode
+- You can then use the arrow keys to navigate and modify the code as needed, such as changing the **<ProjectName>** etc
+
+``` go
+package <ProjectName>
+ 
+import (
+    mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
+)
+ 
+func main() {
+    client, err := mi.New(mi.SystemAssigned())
+    if err != nil {
+        log.Fatal(err)
+    }
+    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("token expire at : ", result.ExpiresOn)
+}
+ 
+```
+
+- When you are finished, press ***Escape*** and then type ***:wq*** and press ***Enter*** to save the file
+- Run the sample app
 
 ```bash
 go run .

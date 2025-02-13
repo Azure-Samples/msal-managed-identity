@@ -38,17 +38,60 @@ To run this sample, you'll need:
 - An Internet connection
 - An Azure account to create, deploy, and manage applications. If you do not have an Azure Account, follow the [instructions](https://azure.microsoft.com/free/) to get a free account.
 
-### Step 1:  Clone or download this repository
+### Step 1:  Create a GO Project
 
-From your terminal of choice:
+<!-- - You may need to do an update before installing go, so run the following commands to do that, and then install Golang
 
 ```bash
-git clone https://github.com/Azure-Samples/msal-managed-identity.git
+sudo apt-get update
+sudo apt-get install golang
 ```
 
-or download and extract the repository `.ZIP` file.
+- If asked are you sure you want to install, say yes
+- Create a new GO Project using the following
 
-The GO sample is located in the [`/src/go/devapps/managedidentity`](https://github.com/AzureAD/microsoft-authentication-library-for-go/blob/c5febcbae287a26a0cfedd45f4edeaf3c41ad7dc/apps/tests/devapps/managedidentity/managedidentity_sample.go) folder.
+```bash
+go mod init <ProjectName>
+go get github.com/AzureAD/microsoft-authentication-library-for-go
+touch main.go
+```
+
+- Modify the ***main.go*** file by using the following commands if using terminal, otherwise just open the file and modify as needed
+
+```bash
+vi main.go
+```
+
+- Press 'I' and 'Enter' to enter ***Insert*** mode
+- You can then use the arrow keys to navigate and modify the code as needed, such as changing the **<ProjectName>** etc
+
+``` go
+package <ProjectName>
+ 
+import (
+    mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
+)
+ 
+func main() {
+    client, err := mi.New(mi.SystemAssigned())
+    if err != nil {
+        log.Fatal(err)
+    }
+    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("token expire at : ", result.ExpiresOn)
+}
+ 
+```
+
+- When you are finished, press ***Escape*** and then type ***:wq*** and press ***Enter*** to save the file
+- Run the sample app
+
+```bash
+go run .
+``` -->
 
 ### Step 2:  Modify the Key Vault URI and Secret name values in the code
 

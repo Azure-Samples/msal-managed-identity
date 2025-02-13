@@ -52,21 +52,56 @@ Get-ChildItem Env:
 
 ## Running the sample
 
-- Run the following to get the MSAL GO sdk
+- You may need to do an update before installing go, so run the following commands to do that, and then install Golang
 
-```Shell
-git clone https://github.com/Azure-Samples/msal-managed-identity.git
+```bash
+sudo apt-get update
+sudo apt-get install golang
 ```
 
-- Then run this to access the sample app directory
+- If asked are you sure you want to install, say yes
+- Create a new GO Project using the following
 
-```Shell
-cd ./microsoft-authentication-library-for-go/apps/tests/devapps/managedidentity
+```bash
+go mod init <ProjectName>
+go get github.com/AzureAD/microsoft-authentication-library-for-go
+touch main.go
 ```
 
-- Run the following to execute the sample app
+- Modify the ***main.go*** file by using the following commands if using terminal, otherwise just open the file and modify as needed
 
-```Shell
+```bash
+vi main.go
+```
+
+- Press 'I' and 'Enter' to enter ***Insert*** mode
+- You can then use the arrow keys to navigate and modify the code as needed, such as changing the **<ProjectName>** etc
+
+``` go
+package <ProjectName>
+ 
+import (
+    mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
+)
+ 
+func main() {
+    client, err := mi.New(mi.SystemAssigned())
+    if err != nil {
+        log.Fatal(err)
+    }
+    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("token expire at : ", result.ExpiresOn)
+}
+ 
+```
+
+- When you are finished, press ***Escape*** and then type ***:wq*** and press ***Enter*** to save the file
+- Run the sample app
+
+```bash
 go run .
 ```
 

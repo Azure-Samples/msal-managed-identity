@@ -5,34 +5,37 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"os"
 
 	mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
 )
 
-func getSecretFromAzureVault(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "going to try get secret from managed identity")
+func getSecretFromAzureVault() string {
+	keyVaultUri := "https://go-lang-kv.vault.azure.net/"
+	secretName := "go-lang-secret"
+	finalResult := ""
 
-	keyVaultUri := "your-key-vault-uri"
-	secretName := "your-secret-name"
-
-	// Uncomment one of the following lines to create a new managed identity client for UserAssigned. Will need to create UserAssigned managed identity on Azure
 	miClient, err := mi.New(mi.SystemAssigned())
-	// miClient, err := mi.New(mi.UserAssignedClientID("my-client-id"))
-	// miClient, err := mi.New(mi.UserAssignedObjectID("my-object-id"))
-	// miClient, err := mi.New(mi.UserAssignedResourceID("my-resource-id"))
+
 	if err != nil {
-		fmt.Fprintf(w, "failed to create a new managed identity client: %v", err)
-		return
+		log.Printf("failed to create a new managed identity client: %v", err)
 	}
 
-	accessToken, err := miClient.AcquireToken(context.Background(), "https://vault.azure.net")
-	if err != nil {
-		fmt.Fprintf(w, "failed to acquire token: %v", err)
-		return
-	}
+	source, err := mi.GetSource()
 
-	fmt.Fprintf(w, "Access token: %s", accessToken.AccessToken)
+	if err != nil {
+		log.Printf("failed to get source: %v", err)
+	}
+	fmt.Println("Managed Identity Source: ", source)
+
+	accessTokenR, err := miClient.AcquireToken(context.Background(), "https://vault.azure.net")
+	if err != nil {
+		finalResult += "\n::error result for resource id::" + err.Error()
+		log.Printf("failed to acquire token: %v", err)
+	}
+	finalResult += "\n::got result for resource id::" + accessTokenR.ExpiresOn.String()
 
 	// Create http request using access token
 	url := fmt.Sprintf("%ssecrets/%s?api-version=7.2", keyVaultUri, secretName)
@@ -40,37 +43,46 @@ func getSecretFromAzureVault(w http.ResponseWriter, r *http.Request) {
 	// Create a new HTTP request
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		fmt.Fprintf(w, "Error creating request: %v", err)
+		log.Printf("Error creating request: %v", err)
 	}
 
 	// Set the authorization header
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken.AccessToken))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessTokenR.AccessToken))
 
 	// Send the request
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Fprintf(w, "Error sending request: %v", err)
+		log.Printf("Error sending request: %v", err)
 	}
 	defer resp.Body.Close()
 
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Fprintf(w, "Error reading response body: %v", err)
+		log.Printf("Error reading response body: %v", err)
 	}
 
 	// Combine all received buffer streams into one buffer, and then into a string
 	var parsedData map[string]interface{}
 	if err := json.Unmarshal(body, &parsedData); err != nil {
-		fmt.Fprintf(w, "Error parsing JSON: %v", err)
+		log.Fatalf("Error parsing JSON: %v", err)
 	}
 
 	// Print the response body
-	fmt.Fprintf(w, "The secret, %s, has a value of: %s", secretName, string(body))
+	return fmt.Sprintf(":: %s :: The secret from Object , %s, has a value of: %s", finalResult, secretName, parsedData["value"])
+}
+
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "response : is : "+getSecretFromAzureVault())
 }
 
 func main() {
-	http.HandleFunc("/api/AcquireTokenMSI", getSecretFromAzureVault)
-	http.ListenAndServe(":8080", nil)
+	listenAddr := ":8080"
+	if val, ok := os.LookupEnv("FUNCTIONS_CUSTOMHANDLER_PORT"); ok {
+		listenAddr = ":" + val
+	}
+	http.HandleFunc("/api/mifunction", helloHandler)
+	log.Printf("About to listen on %s. Go to https://127.0.0.1%s/", listenAddr, listenAddr)
+	log.Fatal(http.ListenAndServe(listenAddr, nil))
 }

@@ -166,26 +166,59 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 az --version
 ```
 
-- **Clone Microsoft Authentication Library**:
+- **Create a GO Project**:
 
-```bash
-git clone https://github.com/AzureAD/microsoft-authentication-library-for-go.git
-cd microsoft-authentication-library-for-go
-git switch YOUR_BRANCH_NAME
-```
-
-- **Install Go**:
+- You may need to do an update before installing go, so run the following commands to do that, and then install Golang
 
 ```bash
 sudo apt-get update
 sudo apt-get install golang
 ```
 
-- Navigate to the managed identity sample:
+- If asked are you sure you want to install, say yes
+- Create a new GO Project using the following
 
 ```bash
-cd apps/tests/devapps/managedidentity
-go run managedidentity_sample.go
+go mod init <ProjectName>
+go get github.com/AzureAD/microsoft-authentication-library-for-go
+touch main.go
+```
+
+- Modify the ***main.go*** file by using the following commands if using terminal, otherwise just open the file and modify as needed
+
+```bash
+vi main.go
+```
+
+- Press 'I' and 'Enter' to enter ***Insert*** mode
+- You can then use the arrow keys to navigate and modify the code as needed, such as changing the **<ProjectName>** etc
+
+``` go
+package <ProjectName>
+ 
+import (
+    mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
+)
+ 
+func main() {
+    client, err := mi.New(mi.SystemAssigned())
+    if err != nil {
+        log.Fatal(err)
+    }
+    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("token expire at : ", result.ExpiresOn)
+}
+ 
+```
+
+- When you are finished, press ***Escape*** and then type ***:wq*** and press ***Enter*** to save the file
+- Run the sample app
+
+```bash
+go run .
 ```
 
 - **Set Environment Variables**:
@@ -334,19 +367,59 @@ This guide should assist you in setting up Azure Arc on your Ubuntu environment 
 
 - **Install Go Lang**: [Go Lang](https://go.dev/doc/install)
 
-- **Clone Microsoft Authentication Library**
+- **Create a GO Project**
+
+- You may need to do an update before installing go, so run the following commands to do that, and then install Golang
 
 ```bash
-git clone https://github.com/AzureAD/microsoft-authentication-library-for-go.git
-cd microsoft-authentication-library-for-go
-git switch YOUR_BRANCH_NAME
+sudo apt-get update
+sudo apt-get install golang
 ```
 
-- **Navigate to the managed identity sample**:
+- If asked are you sure you want to install, say yes
+- Create a new GO Project using the following
 
 ```bash
-cd apps/tests/devapps/managedidentity
-go run managedidentity_sample.go
+go mod init <ProjectName>
+go get github.com/AzureAD/microsoft-authentication-library-for-go
+touch main.go
+```
+
+- Modify the ***main.go*** file by using the following commands
+
+```bash
+vi main.go
+```
+
+- Press 'I' and 'Enter' to enter ***Insert*** mode
+- You can then use the arrow keys to navigate and modify the code as needed, such as changing the **<ProjectName>** etc
+
+``` go
+package <ProjectName>
+ 
+import (
+    mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
+)
+ 
+func main() {
+    client, err := mi.New(mi.SystemAssigned())
+    if err != nil {
+        log.Fatal(err)
+    }
+    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("token expire at : ", result.ExpiresOn)
+}
+ 
+```
+
+- When you are finished, press ***Escape*** and then type ***:wq*** and press ***Enter*** to save the file
+- Run the sample app
+
+```bash
+go run .
 ```
 
 ### Step 6 HIMDS(Hybrid IMDS) support for ARC
