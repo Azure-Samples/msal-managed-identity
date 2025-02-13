@@ -38,71 +38,20 @@ To run this sample, you'll need:
 - An Internet connection
 - An Azure account to create, deploy, and manage applications. If you do not have an Azure Account, follow the [instructions](https://azure.microsoft.com/free/) to get a free account.
 
-### Step 1:  Create a GO Project
+### Step 1: Create & Publish your function
 
-<!-- - You may need to do an update before installing go, so run the following commands to do that, and then install Golang
-
-```bash
-sudo apt-get update
-sudo apt-get install golang
-```
-
-- If asked are you sure you want to install, say yes
-- Create a new GO Project using the following
-
-```bash
-go mod init <ProjectName>
-go get github.com/AzureAD/microsoft-authentication-library-for-go
-touch main.go
-```
-
-- Modify the ***main.go*** file by using the following commands if using terminal, otherwise just open the file and modify as needed
-
-```bash
-vi main.go
-```
-
-- Press 'I' and 'Enter' to enter ***Insert*** mode
-- You can then use the arrow keys to navigate and modify the code as needed, such as changing the **<ProjectName>** etc
-
-``` go
-package <ProjectName>
- 
-import (
-    mi "github.com/AzureAD/microsoft-authentication-library-for-go/apps/managedidentity"
-)
- 
-func main() {
-    client, err := mi.New(mi.SystemAssigned())
-    if err != nil {
-        log.Fatal(err)
-    }
-    result, err := client.AcquireToken(context.TODO(), "https://management.azure.com")
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Println("token expire at : ", result.ExpiresOn)
-}
- 
-```
-
-- When you are finished, press ***Escape*** and then type ***:wq*** and press ***Enter*** to save the file
-- Run the sample app
-
-```bash
-go run .
-``` -->
+[Deploy your function](https://learn.microsoft.com/en-gb/azure/azure-functions/create-first-function-vs-code-other?tabs=go%2Cmacos) using an IDE of your choice, for example Visual Studio Code
 
 ### Step 2:  Modify the Key Vault URI and Secret name values in the code
 
 Following are the changes you need to make:
 
-- In the [`handler.go`](https://github.com/Azure-Samples/msal-managed-identity/blob/main/src/go/sample/AcquireTokenMSI.go) file under the getSecretFromAzureVault method modify the following values,
+- In the [handler.go](handler.go) file under the getSecretFromAzureVault method modify the following values,
 
-    ```go
-        keyVaultUri := "your-key-vault-uri"
-        secretName := "your-secret-name"
-    ```
+```go
+  keyVaultUri := "your-key-vault-uri"
+  secretName := "your-secret-name"
+```
 
 - Change these to match your key vault uri and secret name. These can be found in the following locations:
 
@@ -112,10 +61,6 @@ Click into **'Secrets'**
 Click into the secret you want to use  
 Click ont the version you would like to use  
 Copy the part after the key vault URI and use that as your secret name  
-
-## Publish your function
-
-[Deploy your function](https://learn.microsoft.com/en-gb/azure/azure-functions/create-first-function-vs-code-other?tabs=go%2Cmacos) using an IDE of your choice, for example Visual Studio Code
 
 ## After you deploy the sample to Azure
 
