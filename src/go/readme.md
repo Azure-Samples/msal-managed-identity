@@ -118,65 +118,70 @@ func main() {
 
 ### About the code
 
+Then depending on the Source, the Request will be created.
 Here there's a quick guide to the most interesting authentication-related bits of the sample.
 
 The `New` function is used to create a new Managed Identity client. You can pass in a System or User Assigned managed identity type here.
-This function will also select the Source to be used with Managed Identity. This is selected based on the environment variables present  
+From here MSAL attempt to get the token for the request.
 
 ```go
-  // Creates an instance of Managed Identity Client using System Assigned managed identity
-  miSystemAssigned, err := mi.New(mi.SystemAssigned())
-  if err != nil {
-      log.Fatal(err)
-  }
+// Creates an instance of Managed Identity Client using System Assigned managed identity
+miSystemAssigned, err := mi.New(mi.SystemAssigned())
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
+MSAL will then save to the cache and return the Auth Result.
 You can then call the `AcquireToken` function to get a token or throw an error
 
 ```go
-  // Get the access token using MSAL, or an error if there was one, you can see this in the sample app
-  accessToken, err := miClient.AcquireToken(context.Background(), "https://vault.azure.net")
-  if err != nil {
-      log.Fatalf("failed to acquire token: %v", err)
-      return
-  }
+// Get the access token using MSAL, or an error if there was one, you can see this in the sample app
+accessToken, err := miClient.AcquireToken(context.Background(), "https://vault.azure.net")
+if err != nil {
+    log.Fatalf("failed to acquire token: %v", err)
+    return
+}
 ```
 
 The `AcquireToken` function in the `managedidentity.go` class demonstrates how to take advantage of the Managed Identity Client for calling Microsoft Key Vault without having to worry about secrets or certificates.
 
 ```go
-  // In AcquireToken, when claims are empty, we get token from the cache, otherwise acquire a new one
-  if o.claims == "" {
-      storageTokenResponse, err := cacheManager.Read(ctx, c.authParams)
-      if err != nil {
-          return base.AuthResult{}, err
-      }
-      ar, err := base.AuthResultFromStorage(storageTokenResponse)
-      if err == nil {
-          ar.AccessToken, err = c.authParams.AuthnScheme.FormatAccessToken(ar.AccessToken)
-          return ar, err
-      }
-  }
+// In AcquireToken, when claims are empty, we get token from the cache, otherwise acquire a new one
+if o.claims == "" {
+    storageTokenResponse, err := cacheManager.Read(ctx, c.authParams)
+    if err != nil {
+        return base.AuthResult{}, err
+    }
+    ar, err := base.AuthResultFromStorage(storageTokenResponse)
+    if err == nil {
+        ar.AccessToken, err = c.authParams.AuthnScheme.FormatAccessToken(ar.AccessToken)
+        return ar, err
+    }
+}
 ```
 
 Then depending on the Source, the Request will be created
-Creation of the Request is different per Source, but usually consists of getting the URL from environment variables and adding
-in the correct Headers
+Creation of the Request is different per Source, but usually consists of getting the URL from environment variables and adding in the correct Headers
 
 From here we attempt to get the token for the request
 
 ```go
-  tokenResponse, err := c.getTokenForRequest(req, resource)
-  if err != nil {
-      return base.AuthResult{}, err
-  }
+tokenResponse, err := c.getTokenForRequest(req, resource)
+if err != nil {
+    return base.AuthResult{}, err
+}
 ```
 
-We then save to the cache and return the Auth Result
-From here we print the Auth Result
+The below code shows how a user can print the ***ExpiresOn*** from the returned AuthResult
 
 ```go
-  fmt.Println("token expire at : ", result.ExpiresOn)
+accessToken, err := miClient.AcquireToken(context.Background(), "https://vault.azure.net")
+if err != nil {
+    log.Fatalf("failed to acquire token: %v", err)
+    return
+}
+fmt.Println("token expire at : ", accessToken.ExpiresOn)
 ```
 
 ### Common Errors

@@ -28,7 +28,7 @@ We will cover [Azure Functions](https://learn.microsoft.com/en-us/azure/azure-fu
 
 ### Scenario
 
-You want to access an Azure Key Vault secret from a function deployed in Azure. And, you don't want to worry about managing secrets or app credentials.
+Access an Azure Key Vault secret from a function deployed in Azure without managing secrets or app credentials.
 
 ## How To Run This Sample
 
