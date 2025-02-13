@@ -40,23 +40,96 @@ To run this sample, you'll need:
 
 ### Step 1: Create & Publish your function
 
-[Deploy your function](https://learn.microsoft.com/en-gb/azure/azure-functions/create-first-function-vs-code-other?tabs=go%2Cmacos) using an IDE of your choice, for example Visual Studio Code
+[Create and deploy your function](https://learn.microsoft.com/en-gb/azure/azure-functions/create-first-function-vs-code-other?tabs=go%2Cmacos) using an IDE of your choice, for example Visual Studio Code
 
-### Step 2:  Modify the Key Vault URI and Secret name values in the code
+This will give you a bare bones ***handler.go*** function
 
-Following are the changes you need to make:
+### Step 2:  Modify the Key Vault URI and Secret name values in the handler code
 
-- In the [handler.go](handler.go) file under the getSecretFromAzureVault method modify the following values,
+- Firstly, copy the following function into your ***handler.go*** file
 
 ```go
-  keyVaultUri := "your-key-vault-uri"
-  secretName := "your-secret-name"
+func getSecretFromAzureVault() string {
+keyVaultUri := "your-key-vault-uri"
+secretName := "your-secret-name"
+
+miClient, err := mi.New(mi.SystemAssigned())
+
+if err != nil {
+  log.Printf("failed to create a new managed identity client: %v", err)
+}
+
+source, err := mi.GetSource()
+
+if err != nil {
+  log.Printf("failed to get source: %v", err)
+}
+fmt.Println("Managed Identity Source: ", source)
+
+accessTokenR, err := miClient.AcquireToken(context.Background(), "https://vault.azure.net")
+if err != nil {
+  log.Printf("failed to acquire token: %v", err)
+}
+
+// Create http request using access token
+url := fmt.Sprintf("%ssecrets/%s?api-version=7.2", keyVaultUri, secretName)
+
+// Create a new HTTP request
+req, err := http.NewRequest("GET", url, nil)
+if err != nil {
+  log.Printf("Error creating request: %v", err)
+}
+
+// Set the authorization header
+req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessTokenR.AccessToken))
+
+// Send the request
+client := &http.Client{}
+resp, err := client.Do(req)
+if err != nil {
+  log.Printf("Error sending request: %v", err)
+}
+defer resp.Body.Close()
+
+// Read the response body
+body, err := io.ReadAll(resp.Body)
+if err != nil {
+  log.Printf("Error reading response body: %v", err)
+}
+
+// Combine all received buffer streams into one buffer, and then into a string
+var parsedData map[string]interface{}
+if err := json.Unmarshal(body, &parsedData); err != nil {
+  log.Fatalf("Error parsing JSON: %v", err)
+}
+
+// Print the response body
+return fmt.Sprintf("The secret from Object , %s, has a value of: %s", secretName, parsedData["value"])
+}
 ```
 
-- Change these to match your key vault uri and secret name. These can be found in the following locations:
+- Modify the following to your corresponding ***keyVaultUri*** and ***secretName***
 
-1. Key Vault URI - In your Azure home page, go to your key vault, on the Overview page our key vault URI can be found under **'Essentials'**
-1. Secret Name - On the Key Vault Overview page, go to the Panel on the left and expand the **'Objects'** dropdown  
+```go
+keyVaultUri := "your-key-vault-uri"
+secretName := "your-secret-name"
+```
+
+- You will also want to modify the existing ***helloHandler*** function to match this
+
+```go
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+  fmt.Fprint(w, getSecretFromAzureVault())
+}
+```
+
+The following are the changes you need to make, using our sample function as an example:
+
+- You can view our sample [handler.go](handler.go) file for reference
+- If you are unsure where to get the required values, here are some details
+
+1. **Key Vault URI** - In your Azure home page, go to your key vault, on the Overview page our key vault URI can be found under **'Essentials'**
+1. **Secret Name** - On the Key Vault Overview page, go to the Panel on the left and expand the **'Objects'** dropdown  
 Click into **'Secrets'**  
 Click into the secret you want to use  
 Click ont the version you would like to use  
@@ -82,11 +155,13 @@ You will need to authorize the managed identity resource to access the vault.
 
 ## Launch the function
 
-To launch the function you can use the following:
+From the Azure portal you can access your function
+Inside the function will be a ***Functions*** section that will contain your deployed function, in our example it will be called
+***httptrigger1***
 
-1. {your host}/api/AcquireTokenMsi - to acquire a token for system assigned managed identity
-2. {your host}/api/AcquireTokenMsi?userAssignedClientId=<client id of the user assigned managed identity> - to acquire a token for a user assigned managed identity.
-3. {your host}/api/AcquireTokenMsi?userAssignedResourceId=<resource id of the user assigned managed identity> - to acquire a token for a user assigned managed identity.
+Enter into ***httptrigger1*** and click **Test/Run**
+It will open a side bar where you can press the **Run** button
+You should see a result come back for your key vault secret
 
 > **Note**
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](https://github.com/Azure-Samples/msal-managed-identity/issues) page.

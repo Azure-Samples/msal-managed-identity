@@ -13,9 +13,8 @@ import (
 )
 
 func getSecretFromAzureVault() string {
-	keyVaultUri := "https://go-lang-kv.vault.azure.net/"
-	secretName := "go-lang-secret"
-	finalResult := ""
+	keyVaultUri := "your-key-vault-uri"
+	secretName := "your-secret-name"
 
 	miClient, err := mi.New(mi.SystemAssigned())
 
@@ -32,10 +31,8 @@ func getSecretFromAzureVault() string {
 
 	accessTokenR, err := miClient.AcquireToken(context.Background(), "https://vault.azure.net")
 	if err != nil {
-		finalResult += "\n::error result for resource id::" + err.Error()
 		log.Printf("failed to acquire token: %v", err)
 	}
-	finalResult += "\n::got result for resource id::" + accessTokenR.ExpiresOn.String()
 
 	// Create http request using access token
 	url := fmt.Sprintf("%ssecrets/%s?api-version=7.2", keyVaultUri, secretName)
@@ -70,11 +67,11 @@ func getSecretFromAzureVault() string {
 	}
 
 	// Print the response body
-	return fmt.Sprintf(":: %s :: The secret from Object , %s, has a value of: %s", finalResult, secretName, parsedData["value"])
+	return fmt.Sprintf("The secret from Object , %s, has a value of: %s", secretName, parsedData["value"])
 }
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "response : is : "+getSecretFromAzureVault())
+	fmt.Fprint(w, getSecretFromAzureVault())
 }
 
 func main() {
